@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Level;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace _ToonBlastCore.Scripts.Managers
@@ -10,11 +11,14 @@ namespace _ToonBlastCore.Scripts.Managers
         private LevelScriptableObject[] levelList;
 
         [SerializeField]
-        private Tile[] tileList;
+        private Tile[] baseTileList;
+
 
         [SerializeField] private Transform tileContainer;
         [SerializeField] private Transform bottomLeftTransform;
         [SerializeField] private Transform bottomRightTransform;
+        [SerializeField] private Transform topLeftTransform;
+        [SerializeField] private Transform topRightTransform;
 
         private Dictionary<TileTypes, Tile> enumToTilesDictionary;
 
@@ -34,16 +38,16 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void CreateEnumToTilesDictionary()
         {
-            if (tileList == null)
+            if (baseTileList == null)
             {
                 throw new UnityException("Tile list is empty!");
             }
 
             enumToTilesDictionary = new Dictionary<TileTypes, Tile>();
 
-            for (int i = 0; i < tileList.Length; i++)
+            for (int i = 0; i < baseTileList.Length; i++)
             {
-                enumToTilesDictionary.Add(tileList[i].tileType, tileList[i]);
+                enumToTilesDictionary.Add(baseTileList[i].tileType, baseTileList[i]);
             }
         }
 
@@ -56,15 +60,37 @@ namespace _ToonBlastCore.Scripts.Managers
 
             var tileArray = levelList[currentLevel].tileArray;
 
+            var currentX = bottomLeftTransform.position.x;
+            var totalX = bottomRightTransform.position.x - bottomLeftTransform.position.x;
+            var step = totalX / 8; // Calculations are made for 9x9 grid
+
+            var currentY = bottomLeftTransform.position.y;
+            var totalY = topLeftTransform.position.y - bottomLeftTransform.position.y;
+            var stepY = totalY / 8;
+
+            var currentZ = 0f;
+
             for (int i = 0; i < tileArray.GridSize.x; i++)
             {
+                currentY = bottomLeftTransform.position.y;
+                currentZ = 0;
                 for (int j = tileArray.GridSize.y - 1; j >= 0; j--)
                 {
-                    Debug.Log("hey bunun adı :" + tileArray.GetCell(i,j));
+                    InstantiateTile(tileArray.GetCell(i, j), new Vector3(currentX, currentY,currentZ), tileContainer);
+                    currentY += stepY;
+                    currentZ -= 0.01f;
+
+                    // Debug.Log("hey bunun adı :" + );
                 }
+                currentX += step;
             }
 
+            // Physics2D.gravity = Vector2.zero;
+        }
 
+        private void InstantiateTile(TileTypes tileType, Vector3 pos , Transform container)
+        {
+            Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,container);
         }
 
         private void OnDisable()
