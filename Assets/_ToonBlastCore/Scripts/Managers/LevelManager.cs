@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _ToonBlastCore.Scripts.Mechanic;
 using Level;
 using Unity.Mathematics;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace _ToonBlastCore.Scripts.Managers
         [SerializeField] private SpriteRenderer gameAreaBorderSprite;
 
         private Dictionary<TileTypes, Tile> enumToTilesDictionary;
+        private Tile[][] currentTiles;
 
         public int currentLevel;
 
@@ -35,7 +37,6 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void OnGameStart(Dictionary<string, object> message)
         {
-            Debug.Log("game started eheehe");
             CreateTiles();
         }
 
@@ -62,10 +63,11 @@ namespace _ToonBlastCore.Scripts.Managers
             }
 
             var tileArray = levelList[currentLevel].tileArray;
+            currentTiles = new Tile[tileArray.GridSize.x][];
 
             var currentX = bottomLeftTransform.position.x;
             var totalX = bottomRightTransform.position.x - bottomLeftTransform.position.x;
-            var stepX = totalX / 8; // Calculations are made for 9x9 grid
+            var stepX = totalX / 8 + 0.018f; // Calculations are made for 9x9 grid
 
             var currentY = bottomLeftTransform.position.y;
             var totalY = topLeftTransform.position.y - bottomLeftTransform.position.y;
@@ -77,7 +79,7 @@ namespace _ToonBlastCore.Scripts.Managers
                 float currentZ = 0;
                 for (int j = tileArray.GridSize.y - 1; j >= 0; j--)
                 {
-                    InstantiateTile(tileArray.GetCell(i, j), new Vector3(currentX, currentY,currentZ), tileContainer);
+                    InstantiateTile(i,j, new Vector3(currentX, currentY,currentZ), tileContainer);
                     currentY += stepY;
                     currentZ -= 0.01f;
                 }
@@ -85,11 +87,18 @@ namespace _ToonBlastCore.Scripts.Managers
             }
 
             UpdateContainers(stepX,stepY);
+            TileController.Instance.currentTiles = currentTiles;
         }
 
-        private void InstantiateTile(TileTypes tileType, Vector3 pos , Transform container)
+        private void InstantiateTile(int x, int y, Vector3 pos , Transform container)
         {
-            Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,container);
+            var tileType = levelList[currentLevel].tileArray.GetCell(x, y);
+
+            currentTiles[x] ??= new Tile[levelList[currentLevel].tileArray.GridSize.y];
+
+            currentTiles[x][y] = Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,container).GetComponent<Tile>();
+            currentTiles[x][y].x = x;
+            currentTiles[x][y].y = y;
         }
 
         private void UpdateContainers(float stepX, float stepY)
