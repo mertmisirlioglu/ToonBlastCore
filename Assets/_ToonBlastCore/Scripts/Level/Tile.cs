@@ -1,3 +1,4 @@
+using System;
 using _ToonBlastCore.Scripts.Mechanic;
 using UnityEngine;
 
@@ -26,6 +27,12 @@ namespace Level
             TileController.Instance.CheckHit(x, y);
         }
 
-
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if (tileType == TileTypes.Duck)
+            {
+                Debug.Log("collision name is" + collision.gameObject.name);
+            }
+        }
     }
 }

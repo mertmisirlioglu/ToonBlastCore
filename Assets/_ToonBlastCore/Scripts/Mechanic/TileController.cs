@@ -21,6 +21,15 @@ namespace _ToonBlastCore.Scripts.Mechanic
             CheckDirection(x,y,0,-1);
         }
 
+        IEnumerator WaitForDestroy(int x, int y)
+        {
+            yield return new WaitForSeconds(0.01f);
+            if (currentTiles[x][y].checkedToDestroy)
+            {
+                Destroy(currentTiles[x][y].gameObject);
+            }
+        }
+
 
         void CheckDirection(int xStart, int yStart, int xDir, int yDir)
         {
@@ -37,15 +46,23 @@ namespace _ToonBlastCore.Scripts.Mechanic
             if (currentTiles[xStart + xDir][yStart+yDir].tileType == currentTiles[xStart][yStart].tileType)
             {
                 currentTiles[xStart + xDir][yStart + yDir].checkedToDestroy = true;
-                currentTiles[xStart + xDir][yStart + yDir].GetComponent<SpriteRenderer>().color = Color.black;
                 currentTiles[xStart][yStart].checkedToDestroy = true;
-                destroyList.Add(currentTiles[xStart + xDir][yStart + yDir]);
-                destroyList.Add(currentTiles[xStart][yStart]);
-                Debug.Log("eşlendim");
-                // currentTiles[xStart + xDir][yStart+yDir].gameObject.SetActive(false);
-                Destroy(currentTiles[xStart + xDir][yStart+yDir].gameObject);
-                Destroy(currentTiles[xStart][yStart].gameObject);
-                EventManager.TriggerEvent();
+
+                if (currentTiles[xStart + xDir][yStart + yDir] != null)
+                {
+                    EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", currentTiles[xStart + xDir][yStart+yDir].transform.position.x } });
+                    Destroy(currentTiles[xStart + xDir][yStart + yDir]);
+                }
+                if (currentTiles[xStart][yStart] != null)
+                {
+                    EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", currentTiles[xStart][yStart].transform.position.x } });
+                    Destroy(currentTiles[xStart][yStart]);
+
+                }
+
+
+
+
                 CheckHit(xStart +xDir, yStart + yDir);
             }
 

@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 3
+  x: 0
+  y: 0
+  checkedToDestroy: 0
