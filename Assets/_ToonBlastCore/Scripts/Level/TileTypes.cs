@@ -6,6 +6,8 @@
         Red,
         Yellow,
         Purple,
-        Green
+        Green,
+        Balloon,
+        Duck
     };
 }
