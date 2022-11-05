@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7113575765879313970}
   - component: {fileID: 1815580223}
   - component: {fileID: 5976955899329198611}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DuckTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 6
+  x: 0
+  y: 0
+  checkedToDestroy: 0

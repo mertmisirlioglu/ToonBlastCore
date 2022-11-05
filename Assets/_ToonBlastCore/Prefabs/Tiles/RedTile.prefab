@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5527177735493548518}
   - component: {fileID: 1558288442}
   - component: {fileID: 8206095735240875645}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RedTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

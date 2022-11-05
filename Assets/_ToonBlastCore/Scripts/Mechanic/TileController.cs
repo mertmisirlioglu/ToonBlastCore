@@ -12,60 +12,53 @@ namespace _ToonBlastCore.Scripts.Mechanic
         public Tile[][] currentTiles;
         public List<Tile> destroyList;
 
-        public void CheckHit(int x, int y)
+        public void CheckHit(TileTypes tileType , int x, int y)
         {
             destroyList = new List<Tile>();
-            CheckDirection(x,y,1,0);
-            CheckDirection(x,y,-1,0);
-            CheckDirection(x,y,0,1);
-            CheckDirection(x,y,0,-1);
-        }
+            int hitCount = CheckNeighbours(tileType,x,y);
+            Debug.Log("hitcount is : " + hitCount);
 
-        IEnumerator WaitForDestroy(int x, int y)
-        {
-            yield return new WaitForSeconds(0.01f);
-            if (currentTiles[x][y].checkedToDestroy)
+            if (hitCount == 1)
             {
-                Destroy(currentTiles[x][y].gameObject);
+                destroyList[0].checkedToDestroy = false;
+                return;
             }
-        }
-
-
-        void CheckDirection(int xStart, int yStart, int xDir, int yDir)
-        {
-            if (xStart + xDir >= currentTiles.Length ||
-                xStart + xDir < 0 ||
-                yStart + yDir >= currentTiles[xStart].Length ||
-                yStart + yDir < 0 ||
-                currentTiles[xStart + xDir][yStart+yDir] == null ||
-                currentTiles[xStart + xDir][yStart+yDir].checkedToDestroy)
+            
+            if(hitCount < 1)
             {
                 return;
             }
 
-            if (currentTiles[xStart + xDir][yStart+yDir].tileType == currentTiles[xStart][yStart].tileType)
+
+            foreach (var tile in destroyList)
             {
-                currentTiles[xStart + xDir][yStart + yDir].checkedToDestroy = true;
-                currentTiles[xStart][yStart].checkedToDestroy = true;
+                EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", tile.transform.position.x } });
+                Destroy(tile.gameObject);
+            }
+        }
 
-                if (currentTiles[xStart + xDir][yStart + yDir] != null)
-                {
-                    EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", currentTiles[xStart + xDir][yStart+yDir].transform.position.x } });
-                    Destroy(currentTiles[xStart + xDir][yStart + yDir]);
-                }
-                if (currentTiles[xStart][yStart] != null)
-                {
-                    EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", currentTiles[xStart][yStart].transform.position.x } });
-                    Destroy(currentTiles[xStart][yStart]);
-
-                }
-
-
-
-
-                CheckHit(xStart +xDir, yStart + yDir);
+        int CheckNeighbours(TileTypes type, int x, int y)
+        {
+            if (x >= currentTiles.Length ||
+                x < 0 ||
+                y >= currentTiles[x].Length ||
+                y < 0 ||
+                currentTiles[x][y] == null ||
+                currentTiles[x][y].checkedToDestroy)
+            {
+                return 0;
             }
 
+            if (currentTiles[x][y].tileType == type)
+            {
+                currentTiles[x][y].checkedToDestroy = true;
+                destroyList.Add(currentTiles[x][y]);
+
+                return CheckNeighbours(type, x + 1, y) + CheckNeighbours(type, x - 1, y) +
+                       CheckNeighbours(type, x, y + 1) + CheckNeighbours(type, x, y - 1) + 1;
+            }
+
+            return 0;
 
 
         }

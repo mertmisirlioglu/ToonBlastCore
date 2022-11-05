@@ -21,7 +21,7 @@ namespace Helpers
 
         void FixZCoordinates(Tile tile)
         {
-            tile.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, (1 + 0.2f * y));
+            tile.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, (0.01f * y));
         }
 
         void UpdateTilesArray(Tile tile)

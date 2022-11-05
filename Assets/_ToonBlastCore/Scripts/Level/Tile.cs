@@ -1,4 +1,5 @@
 using System;
+using _ToonBlastCore.Scripts.Managers;
 using _ToonBlastCore.Scripts.Mechanic;
 using UnityEngine;
 
@@ -17,22 +18,15 @@ namespace Level
 
         void OnMouseDown ()
         {
-            if (timer > Time.time * 1000)
+            if (timer > Time.time * 1000 || GameManager.gameState != GameState.Playing)
             {
                 return;
             }
             Debug.Log("çalıstım");
 
             timer = Time.time * 1000 + 500;
-            TileController.Instance.CheckHit(x, y);
+            TileController.Instance.CheckHit(tileType,x, y);
         }
 
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (tileType == TileTypes.Duck)
-            {
-                Debug.Log("collision name is" + collision.gameObject.name);
-            }
-        }
     }
 }

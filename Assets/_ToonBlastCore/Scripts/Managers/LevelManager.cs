@@ -50,7 +50,6 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void OnHit(Dictionary<string, object> message)
         {
-            Debug.Log("onhit");
             StartCoroutine(InstantiateTileOnSky((float)message["x"]));
         }
 
@@ -90,18 +89,17 @@ namespace _ToonBlastCore.Scripts.Managers
             for (int i = 0; i < tileArray.GridSize.x; i++)
             {
                 currentY = bottomLeftTransform.position.y;
-                float currentZ = 0;
                 for (int j = tileArray.GridSize.y - 1; j >= 0; j--)
                 {
-                    InstantiateTile(i,j, new Vector3(currentX, currentY,currentZ), tileContainer);
+                    InstantiateTile(i,j, new Vector3(currentX, currentY,0), tileContainer);
                     currentY += stepY;
-                    currentZ -= 0.01f;
                 }
                 currentX += stepX;
             }
 
             UpdateContainers(stepX,stepY);
             TileController.Instance.currentTiles = currentTiles;
+            GameManager.gameState = GameState.Playing;
         }
 
         private void InstantiateTile(int x, int y, Vector3 pos , Transform container)
@@ -123,10 +121,13 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private IEnumerator InstantiateTileOnSky(float x)
         {
-            var pos = new Vector3(x, 7, -2);
+            GameManager.gameState = GameState.Stop;
+            var pos = new Vector3(x, 5, 0);
             TileTypes tileType = RandomEnumValue<TileTypes>();
             yield return new WaitForSeconds(Random.Range(0, 0.17f));
             Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,tileContainer).GetComponent<Tile>();
+            yield return new WaitForSeconds(1f);
+            GameManager.gameState = GameState.Playing;
         }
 
         public static T RandomEnumValue<T>()
@@ -154,6 +155,11 @@ namespace _ToonBlastCore.Scripts.Managers
             position1 = new Vector3(position1.x,
                 position1.y + (9f - tileArray.GridSize.y) / 2 * stepY, 0);
             gameContainer.position = position1;
+
+            var position2 = positionIndicatorContainer.position;
+            position2 = new Vector3(position2.x + (9f - tileArray.GridSize.x) / 2 * stepX,
+                position2.y + (9f - tileArray.GridSize.y) / 2 * stepY,0);
+            positionIndicatorContainer.position = position2;
 
             var size = gameAreaBorderSprite.size;
             size = new Vector2(size.x -

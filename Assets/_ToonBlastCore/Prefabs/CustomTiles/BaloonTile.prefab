@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7651082670104471599}
   - component: {fileID: 1155567778}
   - component: {fileID: -3786923790887254901}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BaloonTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 5
+  x: 0
+  y: 0
+  checkedToDestroy: 0
