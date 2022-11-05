@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Level;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _ToonBlastCore.Scripts.Managers
 {
@@ -15,10 +16,12 @@ namespace _ToonBlastCore.Scripts.Managers
 
 
         [SerializeField] private Transform tileContainer;
+        [SerializeField] private Transform gameContainer;
         [SerializeField] private Transform bottomLeftTransform;
         [SerializeField] private Transform bottomRightTransform;
         [SerializeField] private Transform topLeftTransform;
         [SerializeField] private Transform topRightTransform;
+        [SerializeField] private SpriteRenderer gameAreaBorderSprite;
 
         private Dictionary<TileTypes, Tile> enumToTilesDictionary;
 
@@ -62,35 +65,57 @@ namespace _ToonBlastCore.Scripts.Managers
 
             var currentX = bottomLeftTransform.position.x;
             var totalX = bottomRightTransform.position.x - bottomLeftTransform.position.x;
-            var step = totalX / 8; // Calculations are made for 9x9 grid
+            var stepX = totalX / 8; // Calculations are made for 9x9 grid
 
             var currentY = bottomLeftTransform.position.y;
             var totalY = topLeftTransform.position.y - bottomLeftTransform.position.y;
             var stepY = totalY / 8;
 
-            var currentZ = 0f;
-
             for (int i = 0; i < tileArray.GridSize.x; i++)
             {
                 currentY = bottomLeftTransform.position.y;
-                currentZ = 0;
+                float currentZ = 0;
                 for (int j = tileArray.GridSize.y - 1; j >= 0; j--)
                 {
                     InstantiateTile(tileArray.GetCell(i, j), new Vector3(currentX, currentY,currentZ), tileContainer);
                     currentY += stepY;
                     currentZ -= 0.01f;
-
-                    // Debug.Log("hey bunun adı :" + );
                 }
-                currentX += step;
+                currentX += stepX;
             }
 
-            // Physics2D.gravity = Vector2.zero;
+            UpdateContainers(stepX,stepY);
         }
 
         private void InstantiateTile(TileTypes tileType, Vector3 pos , Transform container)
         {
             Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,container);
+        }
+
+        private void UpdateContainers(float stepX, float stepY)
+        {
+            var tileArray = levelList[currentLevel].tileArray;
+
+            if (tileArray.GridSize.x == 9 && tileArray.GridSize.y == 9)
+            {
+                return;
+            }
+
+            var position = tileContainer.position;
+            position = new Vector3(position.x + (9f - tileArray.GridSize.x) / 2 * stepX,
+                position.y, 0);
+            tileContainer.position = position;
+
+            var position1 = gameContainer.position;
+            position1 = new Vector3(position1.x,
+                position1.y + (9f - tileArray.GridSize.y) / 2 * stepY, 0);
+            gameContainer.position = position1;
+
+            var size = gameAreaBorderSprite.size;
+            size = new Vector2(size.x -
+                size.x / 9f * (9f - tileArray.GridSize.x) + 0.15f, size.y -
+                size.y / 9f * (9f - tileArray.GridSize.y) + 0.15f);
+            gameAreaBorderSprite.size = size;
         }
 
         private void OnDisable()
