@@ -1,10 +1,17 @@
 using System.Collections.Generic;
 using Helpers;
+using UnityEngine;
 
 
 namespace _ToonBlastCore.Scripts.Managers{
     public class AudioManager : Singleton<AudioManager>
     {
+        public AudioSource audioSource;
+        public AudioClip hitAudio;
+        public AudioClip collectAudio;
+        public AudioClip duckAudio;
+        public AudioClip balloonAudio;
+
         private void Start()
         {
             EventManager.StartListening("onGameStart", OnGameStart);
@@ -31,12 +38,18 @@ namespace _ToonBlastCore.Scripts.Managers{
 
         private void OnHit(Dictionary<string, object> message)
         {
-
+            PlayOneShot(hitAudio);
         }
 
         private void OnScoreChange(Dictionary<string, object> message)
         {
 
+        }
+
+        public void PlayOneShot(AudioClip audioClip)
+        {
+            audioSource.clip = audioClip;
+            audioSource.Play();
         }
 
         private void OnDisable()

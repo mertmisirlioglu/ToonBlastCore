@@ -150,3 +150,4 @@ MonoBehaviour:
   x: 0
   y: 0
   checkedToDestroy: 0
+  PFX_destroy: {fileID: 7183925053345540761, guid: 2dcc18e27437e454aa21c456fbd76ca6, type: 3}

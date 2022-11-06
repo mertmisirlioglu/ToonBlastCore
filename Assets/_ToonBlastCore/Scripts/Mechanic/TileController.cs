@@ -32,8 +32,7 @@ namespace _ToonBlastCore.Scripts.Mechanic
 
             foreach (var tile in destroyList)
             {
-                EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", tile.transform.position.x } });
-                Destroy(tile.gameObject);
+                tile.DestroyWithDelay();
             }
         }
 

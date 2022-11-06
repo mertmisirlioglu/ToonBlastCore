@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Scaler : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         float width = GetScreenToWorldWidth;
