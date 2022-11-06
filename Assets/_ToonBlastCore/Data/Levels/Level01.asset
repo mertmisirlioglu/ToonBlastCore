@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4141ddc71eab14c824d80d10517de8, type: 3}
   m_Name: Level01
   m_EditorClassIdentifier: 
-  firstGoalTile: 4
-  firstGoalValue: 35
-  secondGoalTile: 0
-  secondGoalValue: 100
+  firstGoalTile: 5
+  firstGoalValue: 10
+  secondGoalTile: 6
+  secondGoalValue: 3
   totalMove: 30
   tileArray:
     gridSize: {x: 9, y: 9}

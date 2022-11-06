@@ -44,6 +44,12 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 return;
             }
 
+            if (hitCount >= 5)
+            {
+                EventManager.TriggerEvent("CreateRocket", new Dictionary<string, object> { {"x" ,currentTiles[x][y].transform.position.x } , {"y" , currentTiles[x][y].transform.position.y}});
+                destroyList[0].createNewTile = false;
+            }
+
 
             foreach (var tile in destroyList)
             {

@@ -41,12 +41,15 @@ namespace _ToonBlastCore.Scripts.Managers
         public TileTypes secondGoalType;
         public int secondGoalValue;
 
+        public GameObject rocketGameObject;
+
 
         private void Start()
         {
             EventManager.StartListening("onGameStart", OnGameStart);
             EventManager.StartListening("onTileClicked", OnTileClicked);
             EventManager.StartListening("onHit", OnHit);
+            EventManager.StartListening("CreateRocket", CreateRocket);
             CreateEnumToTilesDictionary();
         }
 
@@ -197,6 +200,11 @@ namespace _ToonBlastCore.Scripts.Managers
             EventManager.TriggerEvent("UpdateUI", null);
             EventManager.TriggerEvent("eligibleToMove", message);
 
+        }
+
+        private void CreateRocket(Dictionary<string, object> message)
+        {
+            Instantiate(rocketGameObject, new Vector3((float) message["x"], (float) message["y"], 0), quaternion.identity);
         }
 
 

@@ -16,6 +16,7 @@ namespace Level
         public int y;
         public bool checkedToDestroy;
         public bool notMatchable;
+        public bool createNewTile = true;
         [SerializeField] private ParticleSystem PFX_destroy;
 
         private float timer = 0;
@@ -57,7 +58,7 @@ namespace Level
         IEnumerator DelayedDestroy()
         {
             yield return new WaitForSeconds(0.2f);
-            EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", transform.position.x } });
+            if(createNewTile) EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", transform.position.x } });
             var level = LevelManager.Instance.levelList[LevelManager.Instance.currentLevel];
 
             if (level.firstGoalTile == tileType || level.secondGoalTile == tileType)
