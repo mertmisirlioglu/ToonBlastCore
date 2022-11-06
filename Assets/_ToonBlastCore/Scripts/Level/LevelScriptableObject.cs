@@ -13,6 +13,8 @@ namespace Level
         public TileTypes secondGoalTile;
         public int secondGoalValue;
 
+        [Header("Move count")] public int totalMove;
+
         [Space(10)]
         [SerializeField]
         public Array2DTilesEnum tileArray;

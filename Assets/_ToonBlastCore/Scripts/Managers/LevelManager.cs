@@ -11,10 +11,9 @@ using Random = UnityEngine.Random;
 
 namespace _ToonBlastCore.Scripts.Managers
 {
-    public class LevelManager : MonoBehaviour
+    public class LevelManager : Singleton<LevelManager>
     {
-        [SerializeField]
-        private LevelScriptableObject[] levelList;
+        public LevelScriptableObject[] levelList;
 
         [SerializeField]
         private Tile[] baseTileList;
@@ -31,21 +30,39 @@ namespace _ToonBlastCore.Scripts.Managers
         public Transform positionIndicatorContainer;
         public Transform indicatorPrefab;
 
-        private Dictionary<TileTypes, Tile> enumToTilesDictionary;
+        public Dictionary<TileTypes, Tile> enumToTilesDictionary;
         private Tile[][] currentTiles;
 
         public int currentLevel;
+        public int remainingMoves;
+
+        public TileTypes firstGoalType;
+        public int firstGoalValue;
+        public TileTypes secondGoalType;
+        public int secondGoalValue;
+
 
         private void Start()
         {
             EventManager.StartListening("onGameStart", OnGameStart);
+            EventManager.StartListening("onTileClicked", OnTileClicked);
             EventManager.StartListening("onHit", OnHit);
             CreateEnumToTilesDictionary();
         }
 
         private void OnGameStart(Dictionary<string, object> message)
         {
+            GetLevelData();
             CreateTiles();
+        }
+
+        private void GetLevelData()
+        {
+            remainingMoves = levelList[currentLevel].totalMove;
+            firstGoalType = levelList[currentLevel].firstGoalTile;
+            firstGoalValue = levelList[currentLevel].firstGoalValue;
+            secondGoalType = levelList[currentLevel].secondGoalTile;
+            secondGoalValue = levelList[currentLevel].secondGoalValue;
         }
 
         private void OnHit(Dictionary<string, object> message)
@@ -126,7 +143,6 @@ namespace _ToonBlastCore.Scripts.Managers
             TileTypes tileType = RandomEnumValue<TileTypes>();
             yield return new WaitForSeconds(Random.Range(0, 0.17f));
             Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,tileContainer).GetComponent<Tile>();
-            yield return new WaitForSeconds(1f);
             GameManager.gameState = GameState.Playing;
         }
 
@@ -166,6 +182,20 @@ namespace _ToonBlastCore.Scripts.Managers
                 size.x / 9f * (9f - tileArray.GridSize.x) + 0.15f, size.y -
                 size.y / 9f * (9f - tileArray.GridSize.y) + 0.15f);
             gameAreaBorderSprite.size = size;
+        }
+
+        private void OnTileClicked(Dictionary<string, object> message)
+        {
+            if (remainingMoves - 1 < 0)
+            {
+                EventManager.TriggerEvent("onLose", null);
+                return;
+            }
+
+            remainingMoves--;
+            EventManager.TriggerEvent("UpdateUI", null);
+            EventManager.TriggerEvent("eligibleToMove", message);
+
         }
 
 

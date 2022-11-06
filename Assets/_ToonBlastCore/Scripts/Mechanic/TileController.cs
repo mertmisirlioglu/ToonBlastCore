@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _ToonBlastCore.Scripts.Managers;
@@ -11,6 +12,16 @@ namespace _ToonBlastCore.Scripts.Mechanic
     {
         public Tile[][] currentTiles;
         public List<Tile> destroyList;
+
+        private void Start()
+        {
+            EventManager.StartListening("eligibleToMove", OnTileClicked);
+        }
+
+        private void OnTileClicked(Dictionary<string, object> message)
+        {
+            CheckHit((TileTypes)message["tileType"],(int) message["x"], (int) message["y"]);
+        }
 
         public void CheckHit(TileTypes tileType , int x, int y)
         {
@@ -43,6 +54,7 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 y >= currentTiles[x].Length ||
                 y < 0 ||
                 currentTiles[x][y] == null ||
+                currentTiles[x][y].notMatchable ||
                 currentTiles[x][y].checkedToDestroy)
             {
                 return 0;
