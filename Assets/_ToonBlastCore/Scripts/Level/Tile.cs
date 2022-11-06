@@ -47,7 +47,10 @@ namespace Level
 
         public void DestroyWithDelay()
         {
-            Instantiate(PFX_destroy, transform.position, transform.rotation);
+            if (tileType != TileTypes.Duck && tileType != TileTypes.Balloon)
+            {
+                Instantiate(PFX_destroy, transform.position, transform.rotation);
+            }
             StartCoroutine(DelayedDestroy());
         }
 

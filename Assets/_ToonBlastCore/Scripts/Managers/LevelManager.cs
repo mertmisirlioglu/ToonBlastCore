@@ -67,6 +67,7 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void OnHit(Dictionary<string, object> message)
         {
+            Debug.Log("geldim on hit");
             StartCoroutine(InstantiateTileOnSky((float)message["x"]));
         }
 

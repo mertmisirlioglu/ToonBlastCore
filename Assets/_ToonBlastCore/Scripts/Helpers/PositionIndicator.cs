@@ -1,4 +1,5 @@
 using System;
+using _ToonBlastCore.Scripts.Managers;
 using _ToonBlastCore.Scripts.Mechanic;
 using Level;
 using UnityEngine;
@@ -17,6 +18,13 @@ namespace Helpers
             tile.y = y;
             FixZCoordinates(tile);
             UpdateTilesArray(tile);
+
+            if (tile.tileType == TileTypes.Duck && y == LevelManager.Instance.levelList[LevelManager.Instance.currentLevel].tileArray.GridSize.y - 1
+                && !tile.checkedToDestroy)
+            {
+                tile.checkedToDestroy = true;
+                tile.DestroyWithDelay();
+            }
         }
 
         void FixZCoordinates(Tile tile)

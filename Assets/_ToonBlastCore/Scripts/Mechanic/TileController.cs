@@ -31,7 +31,11 @@ namespace _ToonBlastCore.Scripts.Mechanic
 
             if (hitCount == 1)
             {
-                destroyList[0].checkedToDestroy = false;
+                // baloons are not counted as hit count
+                foreach (var tile in destroyList)
+                {
+                    tile.checkedToDestroy = false;
+                }
                 return;
             }
 
@@ -54,9 +58,18 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 y >= currentTiles[x].Length ||
                 y < 0 ||
                 currentTiles[x][y] == null ||
-                currentTiles[x][y].notMatchable ||
                 currentTiles[x][y].checkedToDestroy)
             {
+                return 0;
+            }
+
+            if (currentTiles[x][y].notMatchable)
+            {
+                if (currentTiles[x][y].tileType == TileTypes.Balloon)
+                {
+                    destroyList.Add(currentTiles[x][y]);
+                    currentTiles[x][y].checkedToDestroy = true;
+                }
                 return 0;
             }
 
