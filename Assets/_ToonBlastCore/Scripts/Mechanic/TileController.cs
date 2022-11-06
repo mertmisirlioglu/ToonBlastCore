@@ -23,7 +23,7 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 destroyList[0].checkedToDestroy = false;
                 return;
             }
-            
+
             if(hitCount < 1)
             {
                 return;

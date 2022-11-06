@@ -1,6 +1,5 @@
 ﻿using Array2DEditor;
 using UnityEngine;
-using UnityEngine.WSA;
 
 namespace Level
 {
