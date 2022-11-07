@@ -1199,6 +1199,7 @@ MonoBehaviour:
   firstGoalValue: 0
   secondGoalType: 0
   secondGoalValue: 0
+  rocketGameObject: {fileID: 4466429707736655387, guid: 1edfe4818b2d0403f93c6be0592a38e0, type: 3}
 --- !u!114 &1291719193
 MonoBehaviour:
   m_ObjectHideFlags: 0

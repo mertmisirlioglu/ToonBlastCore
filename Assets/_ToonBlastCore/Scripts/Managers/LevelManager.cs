@@ -121,6 +121,7 @@ namespace _ToonBlastCore.Scripts.Managers
             UpdateContainers(stepX,stepY);
             TileController.Instance.currentTiles = currentTiles;
             GameManager.gameState = GameState.Playing;
+            UIManager.Instance.SetGoalsAndMoveCount();
         }
 
         private void InstantiateTile(int x, int y, Vector3 pos , Transform container)

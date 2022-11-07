@@ -8,18 +8,23 @@ using UnityEngine;
 public class Rocket : MonoBehaviour
 {
     public bool isVertical;
-    public bool isOpposite;
     public bool isActive;
-    public BoxCollider2D _boxCollider2D;
+    public BoxCollider2D boxCollider2D;
     public Rigidbody2D rb;
+    public Rigidbody2D otherRb;
 
     private void Start()
     {
-        _boxCollider2D = GetComponent<BoxCollider2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+
+        SetDirection();
+    }
+
+    private void SetDirection()
+    {
         isVertical = UnityEngine.Random.Range(0, 1000) % 2 == 0;
 
-        // isVertical = true;
         if (isVertical)
         {
             transform.localRotation *= Quaternion.Euler(0, 0, -90);
@@ -34,26 +39,41 @@ public class Rocket : MonoBehaviour
     private void CreateOppositeAndSetActive()
     {
         EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", transform.position.x } });
-        rb.isKinematic = true;
-        _boxCollider2D.size /= 2;
-        isActive = true;
-        rb.constraints = RigidbodyConstraints2D.None;
-        _boxCollider2D.isTrigger = true;
-        var otherRocket = Instantiate(gameObject, transform.position,  transform.localRotation * Quaternion.Euler(0, 0, isVertical? -90 : -180));
-        var direction = isVertical ? new Vector3(0, 1, 0) : new Vector3(-1, 0, 0);
-        direction = isOpposite ? direction * -1 : direction;
-        rb.velocity = direction * 5f;
-        var otherRb = otherRocket.GetComponent<Rigidbody2D>();
-        otherRb.isKinematic = true;
-        otherRb.velocity = direction * -1 * 5f;
 
-        StartCoroutine(DestroyRockets(otherRocket));
+        SetRocketProperties();
+        InstantiateOtherRocket();
+        LaunchRockets();
+        StartCoroutine(DestroyRockets());
     }
 
-    IEnumerator DestroyRockets(GameObject otherRocket)
+    private void SetRocketProperties()
     {
-        yield return new WaitForSeconds(2f);
-        Destroy(otherRocket);
+        rb.isKinematic = true;
+        boxCollider2D.size /= 2;
+        isActive = true;
+        rb.constraints = RigidbodyConstraints2D.None;
+        boxCollider2D.isTrigger = true;
+    }
+
+    private void InstantiateOtherRocket()
+    {
+        var otherRocket = Instantiate(gameObject, transform.position,  transform.localRotation * Quaternion.Euler(0, 0, isVertical? -90 : -180));
+        otherRb = otherRocket.GetComponent<Rigidbody2D>();
+    }
+
+    private void LaunchRockets()
+    {
+        var direction = isVertical ? new Vector3(0, 1, 0) : new Vector3(-1, 0, 0);
+        rb.velocity = direction * 5f;
+        otherRb.velocity = direction * -1 * 5f;
+    }
+
+    IEnumerator DestroyRockets()
+    {
+        yield return new WaitForSeconds(0.7f);
+        isActive = false;
+        yield return new WaitForSeconds(1.3f);
+        Destroy(otherRb.gameObject);
         Destroy(gameObject);
     }
 

@@ -9,16 +9,11 @@ namespace _ToonBlastCore.Scripts.Managers
     {
         private void Start()
         {
-            EventManager.StartListening("onGameStart", OnGameStart);
             EventManager.StartListening("onGameEnd", OnGameEnd);
             EventManager.StartListening("onScoreChange", OnScoreChange);
             EventManager.StartListening("onGoalHit", OnGoalHit);
         }
 
-        private void OnGameStart(Dictionary<string, object> message)
-        {
-
-        }
 
         private void OnGameEnd(Dictionary<string, object> message)
         {
@@ -48,7 +43,6 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void OnDisable()
         {
-            EventManager.StopListening("onGameStart", OnGameStart);
             EventManager.StopListening("onGameEnd", OnGameEnd);
             EventManager.StopListening("onScoreChange", OnScoreChange);
         }

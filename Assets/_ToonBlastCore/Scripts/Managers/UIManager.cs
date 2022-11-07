@@ -23,19 +23,11 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void Start()
         {
-            EventManager.StartListening("onGameStart", OnGameStart);
             EventManager.StartListening("UpdateUI", UpdateUI);
             EventManager.StartListening("onLose", OnLose);
         }
 
-        private void OnGameStart(Dictionary<string, object> message)
-        {
-            SetGoalsAndMoveCount();
-        }
 
-        private void OnTileClicked(Dictionary<string, object> message)
-        {
-        }
 
         private void OnLose(Dictionary<string, object> message)
         {
@@ -48,7 +40,7 @@ namespace _ToonBlastCore.Scripts.Managers
             moveText.SetText(LevelManager.Instance.remainingMoves.ToString());
         }
 
-        private void SetGoalsAndMoveCount()
+        public void SetGoalsAndMoveCount()
         {
             var level = LevelManager.Instance.levelList[LevelManager.Instance.currentLevel];
 
