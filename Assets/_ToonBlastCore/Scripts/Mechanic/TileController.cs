@@ -15,7 +15,7 @@ namespace _ToonBlastCore.Scripts.Mechanic
 
         private void Start()
         {
-            EventManager.StartListening("eligibleToMove", OnTileClicked);
+            EventManager.StartListening("onTileClicked", OnTileClicked);
         }
 
         private void OnTileClicked(Dictionary<string, object> message)
@@ -49,6 +49,9 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 EventManager.TriggerEvent("CreateRocket", new Dictionary<string, object> { {"x" ,currentTiles[x][y].transform.position.x } , {"y" , currentTiles[x][y].transform.position.y}});
                 destroyList[0].createNewTile = false;
             }
+
+            EventManager.TriggerEvent("onMove", null);
+
 
 
             foreach (var tile in destroyList)

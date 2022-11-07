@@ -47,7 +47,7 @@ namespace _ToonBlastCore.Scripts.Managers
         private void Start()
         {
             EventManager.StartListening("onGameStart", OnGameStart);
-            EventManager.StartListening("onTileClicked", OnTileClicked);
+            EventManager.StartListening("onMove", OnMove);
             EventManager.StartListening("onHit", OnHit);
             EventManager.StartListening("CreateRocket", CreateRocket);
             CreateEnumToTilesDictionary();
@@ -189,7 +189,7 @@ namespace _ToonBlastCore.Scripts.Managers
             gameAreaBorderSprite.size = size;
         }
 
-        private void OnTileClicked(Dictionary<string, object> message)
+        private void OnMove(Dictionary<string, object> message)
         {
             if (remainingMoves - 1 < 0)
             {
@@ -199,8 +199,6 @@ namespace _ToonBlastCore.Scripts.Managers
 
             remainingMoves--;
             EventManager.TriggerEvent("UpdateUI", null);
-            EventManager.TriggerEvent("eligibleToMove", message);
-
         }
 
         private void CreateRocket(Dictionary<string, object> message)
