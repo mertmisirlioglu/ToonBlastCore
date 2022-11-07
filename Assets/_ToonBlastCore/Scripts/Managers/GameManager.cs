@@ -15,7 +15,7 @@ namespace _ToonBlastCore.Scripts.Managers
         public static GameState gameState;
         private void Start()
         {
-            EventManager.TriggerEvent("onGameStart", null);
+
         }
 
 

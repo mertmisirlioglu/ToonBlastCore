@@ -9,13 +9,24 @@ namespace _ToonBlastCore.Scripts.Managers
 {
     public class UIManager : Helpers.Singleton<UIManager>
     {
+        [Header("Canvases and Screens")]
+        [SerializeField] private GameObject GameUICanvas;
+        [SerializeField] private GameObject HomeUICanvas;
+        [SerializeField] private GameObject GameContainer;
+        [SerializeField] private GameObject WinScreen;
+        [SerializeField] private GameObject LosePopup;
+
+
         [Header("First Goal")]
         public Image FirstGoalImage;
         [SerializeField] private TextMeshProUGUI FirstGoalValueText;
+        [SerializeField] private GameObject FirstGoalTick;
 
         [Header("Second Goal")]
          public Image SecondGoalImage;
         [SerializeField] private TextMeshProUGUI SecondGoalValueText;
+        [SerializeField] private GameObject SecondGoalTick;
+
 
         [Header("Move Count")]
         [SerializeField] private TextMeshProUGUI moveText;
@@ -24,13 +35,58 @@ namespace _ToonBlastCore.Scripts.Managers
         private void Start()
         {
             EventManager.StartListening("UpdateUI", UpdateUI);
+            EventManager.StartListening("onGoalDone", OnGoalDone);
             EventManager.StartListening("onLose", OnLose);
+            EventManager.StartListening("onWin", OnWin);
+        }
+
+        public void StartGame()
+        {
+            HomeUICanvas.SetActive(false);
+            GameUICanvas.SetActive(true);
+            GameContainer.SetActive(true);
+            EventManager.TriggerEvent("onGameStart", null);
+        }
+
+        public void Restart()
+        {
+            LosePopup.SetActive(false);
+            GameContainer.SetActive(true);
+            EventManager.TriggerEvent("onGameRestart", null);
         }
 
 
 
         private void OnLose(Dictionary<string, object> message)
         {
+            GameContainer.SetActive(false);
+            LosePopup.SetActive(true);
+        }
+
+        private void OnWin(Dictionary<string, object> message)
+        {
+            GameContainer.SetActive(false);
+            GameUICanvas.SetActive(false);
+            WinScreen.SetActive(true);
+        }
+
+        public void NextLevel()
+        {
+            EventManager.TriggerEvent("loadNextLevel", null);
+        }
+
+        private void OnGoalDone(Dictionary<string, object> message)
+        {
+            if ((bool)message["isFirstGoal"])
+            {
+                FirstGoalValueText.enabled = false;
+                FirstGoalTick.SetActive(true);
+            }
+            else
+            {
+                SecondGoalValueText.enabled = false;
+                SecondGoalTick.SetActive(true);
+            }
         }
 
         private void UpdateUI(Dictionary<string, object> message)

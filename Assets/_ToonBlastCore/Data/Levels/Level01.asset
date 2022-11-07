@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Level01
   m_EditorClassIdentifier: 
   firstGoalTile: 0
-  firstGoalValue: 5
+  firstGoalValue: 85
   secondGoalTile: 1
-  secondGoalValue: 3
-  totalMove: 50
+  secondGoalValue: 5
+  totalMove: 25
   tileArray:
     gridSize: {x: 9, y: 9}
     cellSize: {x: 64, y: 16}

@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using _ToonBlastCore.Scripts.Mechanic;
 using Helpers;
 using Level;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -50,7 +52,10 @@ namespace _ToonBlastCore.Scripts.Managers
             EventManager.StartListening("onMove", OnMove);
             EventManager.StartListening("onHit", OnHit);
             EventManager.StartListening("CreateRocket", CreateRocket);
+            EventManager.StartListening("loadNextLevel", LoadNextLevel);
+            EventManager.StartListening("onGameRestart", RestartLevel);
             CreateEnumToTilesDictionary();
+            currentLevel = PlayerPrefs.GetInt("level");
         }
 
         private void OnGameStart(Dictionary<string, object> message)
@@ -61,6 +66,11 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void GetLevelData()
         {
+            if (currentLevel >= levelList.Length)
+            {
+                currentLevel = Random.Range(0, levelList.Length - 1);
+            }
+
             remainingMoves = levelList[currentLevel].totalMove;
             firstGoalType = levelList[currentLevel].firstGoalTile;
             firstGoalValue = levelList[currentLevel].firstGoalValue;
@@ -70,9 +80,22 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void OnHit(Dictionary<string, object> message)
         {
-            Debug.Log("geldim on hit");
             StartCoroutine(InstantiateTileOnSky((float)message["x"]));
         }
+
+        private void LoadNextLevel(Dictionary<string, object> message)
+        {
+            currentLevel++;
+            PlayerPrefs.SetInt("level",currentLevel);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private void RestartLevel(Dictionary<string, object> message)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+
 
         private void CreateEnumToTilesDictionary()
         {
@@ -91,10 +114,7 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void CreateTiles()
         {
-            if (levelList[currentLevel] == null)
-            {
-                throw new UnityException("Level data is empty! Check level scriptable object");
-            }
+
 
             var tileArray = levelList[currentLevel].tileArray;
             currentTiles = new Tile[tileArray.GridSize.x][];
@@ -191,19 +211,20 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void OnMove(Dictionary<string, object> message)
         {
-            if (remainingMoves - 1 < 0)
+            remainingMoves--;
+
+            if (remainingMoves <= 0)
             {
                 EventManager.TriggerEvent("onLose", null);
                 return;
             }
 
-            remainingMoves--;
             EventManager.TriggerEvent("UpdateUI", null);
         }
 
         private void CreateRocket(Dictionary<string, object> message)
         {
-            Instantiate(rocketGameObject, new Vector3((float) message["x"], (float) message["y"], 0), quaternion.identity);
+            Instantiate(rocketGameObject, new Vector3((float) message["x"], (float) message["y"], 0), quaternion.identity,tileContainer);
         }
 
 

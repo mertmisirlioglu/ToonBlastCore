@@ -11,7 +11,8 @@ namespace _ToonBlastCore.Scripts.Mechanic
     public class TileController : Singleton<TileController>
     {
         public Tile[][] currentTiles;
-        public List<Tile> destroyList;
+        private List<Tile> destroyList;
+        private Coroutine checkCoroutine;
 
         private void Start()
         {
@@ -22,6 +23,45 @@ namespace _ToonBlastCore.Scripts.Mechanic
         {
             CheckHit((TileTypes)message["tileType"],(int) message["x"], (int) message["y"]);
         }
+
+        public void CheckAreThereAnyMove()
+        {
+            Debug.Log("checkledim");
+            if (FindObjectsOfType<Rocket>().Length > 0) return;
+            bool hasNeighbor = false;
+            for (int i = 0; i < currentTiles.Length; i++)
+            {
+                for (int j = 0; j < currentTiles[i].Length; j++)
+                {
+                    var hitcount = CheckNeighbours(currentTiles[i][j].tileType, i, j);
+                    Debug.Log("check hit :" + hitcount);
+                    if (hitcount > 1)
+                    {
+                        hasNeighbor = true;
+                    }
+                    currentTiles[i][j].checkedToDestroy = false;
+                }
+            }
+
+            if (hasNeighbor)
+            {
+                ResetCheckedToDestroyBools();
+            }
+            if (!hasNeighbor) EventManager.TriggerEvent("onLose", null);
+        }
+
+        private void ResetCheckedToDestroyBools()
+        {
+            foreach (var tileArray in currentTiles)
+            {
+                foreach (var tile in tileArray)
+                {
+                    tile.checkedToDestroy = false;
+                }
+            }
+        }
+
+
 
         public void CheckHit(TileTypes tileType , int x, int y)
         {
@@ -44,6 +84,9 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 return;
             }
 
+            if(checkCoroutine != null) StopCoroutine(checkCoroutine);
+
+
             if (hitCount >= 5)
             {
                 EventManager.TriggerEvent("CreateRocket", new Dictionary<string, object> { {"x" ,currentTiles[x][y].transform.position.x } , {"y" , currentTiles[x][y].transform.position.y}});
@@ -58,6 +101,8 @@ namespace _ToonBlastCore.Scripts.Mechanic
             {
                 tile.DestroyWithDelay();
             }
+
+            checkCoroutine = StartCoroutine(Utils.DelayedAction(CheckAreThereAnyMove, 4f));
         }
 
         int CheckNeighbours(TileTypes type, int x, int y)

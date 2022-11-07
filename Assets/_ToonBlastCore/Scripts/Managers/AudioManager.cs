@@ -4,9 +4,10 @@ using UnityEngine;
 
 
 namespace _ToonBlastCore.Scripts.Managers{
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : MonoBehaviour
     {
         public AudioSource audioSource;
+        public AudioSource audioSource2;
         public AudioClip hitAudio;
         public AudioClip collectAudio;
         public AudioClip duckAudio;
@@ -40,6 +41,7 @@ namespace _ToonBlastCore.Scripts.Managers{
         {
             PlayOneShot(hitAudio);
         }
+
 
         private void OnScoreChange(Dictionary<string, object> message)
         {

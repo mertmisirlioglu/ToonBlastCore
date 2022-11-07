@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4141ddc71eab14c824d80d10517de8, type: 3}
+  m_Name: Level02
+  m_EditorClassIdentifier: 
+  firstGoalTile: 4
+  firstGoalValue: 5
+  secondGoalTile: 1
+  secondGoalValue: 3
+  totalMove: 10
+  tileArray:
+    gridSize: {x: 3, y: 5}
+    cellSize: {x: 64, y: 16}
+    cells:
+    - row: 010000000000000004000000
+    - row: 020000000200000000000000
+    - row: 020000000400000000000000
+    - row: 010000000400000000000000
+    - row: 010000000400000002000000
