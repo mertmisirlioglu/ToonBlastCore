@@ -61,6 +61,16 @@ namespace Level
             if(createNewTile) EventManager.TriggerEvent("onHit", new Dictionary<string, object> { { "x", transform.position.x } });
             var level = LevelManager.Instance.levelList[LevelManager.Instance.currentLevel];
 
+            if (tileType == TileTypes.Duck)
+            {
+                EventManager.TriggerEvent("playDuckAudio", null);
+            }
+
+            if (tileType == TileTypes.Balloon)
+            {
+                EventManager.TriggerEvent("playBalloonAudio", null);
+            }
+
             if (level.firstGoalTile == tileType || level.secondGoalTile == tileType)
             {
                 EventManager.TriggerEvent("onGoalHit", new Dictionary<string, object> { { "tileType", tileType} });

@@ -43,6 +43,8 @@ namespace _ToonBlastCore.Scripts.Managers
         public TileTypes secondGoalType;
         public int secondGoalValue;
 
+        private Coroutine loseCoroutine;
+
         public GameObject rocketGameObject;
 
 
@@ -50,6 +52,7 @@ namespace _ToonBlastCore.Scripts.Managers
         {
             EventManager.StartListening("onGameStart", OnGameStart);
             EventManager.StartListening("onMove", OnMove);
+            EventManager.StartListening("onWin", OnWin);
             EventManager.StartListening("onHit", OnHit);
             EventManager.StartListening("CreateRocket", CreateRocket);
             EventManager.StartListening("loadNextLevel", LoadNextLevel);
@@ -93,6 +96,15 @@ namespace _ToonBlastCore.Scripts.Managers
         private void RestartLevel(Dictionary<string, object> message)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        // for last move wins
+        private void OnWin(Dictionary<string, object> message)
+        {
+            if (loseCoroutine != null)
+            {
+                StopCoroutine(loseCoroutine);
+            }
         }
 
 
@@ -215,7 +227,7 @@ namespace _ToonBlastCore.Scripts.Managers
 
             if (remainingMoves <= 0)
             {
-                EventManager.TriggerEvent("onLose", null);
+                loseCoroutine = StartCoroutine(Utils.DelayedAction(() => EventManager.TriggerEvent("onLose", null),5f));
                 return;
             }
 

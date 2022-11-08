@@ -1783,11 +1783,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 44c3bdada4dc2451ca54bce76d8ddf7a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.185
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2230,6 +2230,8 @@ MonoBehaviour:
   collectAudio: {fileID: 8300000, guid: 9f8c0f5ad68d14ba8b6ae723130a3f69, type: 3}
   duckAudio: {fileID: 8300000, guid: fd63f47f06aad4b8db83a6a8525da660, type: 3}
   balloonAudio: {fileID: 8300000, guid: 9f52c8514c8344835a1af57a57c286d0, type: 3}
+  winAudio: {fileID: 8300000, guid: eae1177648e5a402abd486828440bab1, type: 3}
+  loseAudio: {fileID: 8300000, guid: 67281dfa553e14e2b969e58389ef93cb, type: 3}
 --- !u!114 &1291719190
 MonoBehaviour:
   m_ObjectHideFlags: 0

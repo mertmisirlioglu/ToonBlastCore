@@ -9,9 +9,11 @@ namespace _ToonBlastCore.Scripts.Managers{
         public AudioSource audioSource;
         public AudioSource audioSource2;
         public AudioClip hitAudio;
-        public AudioClip collectAudio;
         public AudioClip duckAudio;
         public AudioClip balloonAudio;
+        public AudioClip winAudio;
+        public AudioClip loseAudio;
+
 
         private void Start()
         {
@@ -19,7 +21,8 @@ namespace _ToonBlastCore.Scripts.Managers{
             EventManager.StartListening("onWin", OnWin);
             EventManager.StartListening("onLose", OnLose);
             EventManager.StartListening("onHit", OnHit);
-            EventManager.StartListening("onScoreChange", OnScoreChange);
+            EventManager.StartListening("playDuckAudio", PlayDuckAudio);
+            EventManager.StartListening("playBalloonAudio", PlayBalloonAudio);
         }
 
         private void OnGameStart(Dictionary<string, object> message)
@@ -29,12 +32,12 @@ namespace _ToonBlastCore.Scripts.Managers{
 
         private void OnWin(Dictionary<string, object> message)
         {
-
+            PlayOneShot(winAudio);
         }
 
         private void OnLose(Dictionary<string, object> message)
         {
-
+            PlayOneShot(loseAudio);
         }
 
         private void OnHit(Dictionary<string, object> message)
@@ -42,11 +45,16 @@ namespace _ToonBlastCore.Scripts.Managers{
             PlayOneShot(hitAudio);
         }
 
-
-        private void OnScoreChange(Dictionary<string, object> message)
+        private void PlayDuckAudio(Dictionary<string, object> message)
         {
-
+            PlayOneShot(duckAudio);
         }
+
+        private void PlayBalloonAudio(Dictionary<string, object> message)
+        {
+            PlayOneShot(balloonAudio);
+        }
+
 
         public void PlayOneShot(AudioClip audioClip)
         {
@@ -60,7 +68,8 @@ namespace _ToonBlastCore.Scripts.Managers{
             EventManager.StopListening("onWin", OnWin);
             EventManager.StopListening("onLose", OnLose);
             EventManager.StopListening("onHit", OnHit);
-            EventManager.StopListening("onScoreChange", OnScoreChange);
+            EventManager.StopListening("playDuckAudio", PlayDuckAudio);
+            EventManager.StopListening("playBalloonAudio", PlayBalloonAudio);
         }
 
     }
