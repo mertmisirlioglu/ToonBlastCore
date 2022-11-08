@@ -2202,10 +2202,10 @@ GameObject:
   - component: {fileID: 1291719193}
   - component: {fileID: 1291719192}
   - component: {fileID: 1291719196}
-  - component: {fileID: 1291719191}
   - component: {fileID: 1291719190}
   - component: {fileID: 1291719189}
   - component: {fileID: 1291719195}
+  - component: {fileID: 1291719191}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -2226,7 +2226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 639466736}
-  audioSource2: {fileID: 0}
+  audioSource2: {fileID: 1166583579}
   hitAudio: {fileID: 8300000, guid: 403869a16c007469589776d6eb07cc61, type: 3}
   duckAudio: {fileID: 8300000, guid: fd63f47f06aad4b8db83a6a8525da660, type: 3}
   balloonAudio: {fileID: 8300000, guid: 9f52c8514c8344835a1af57a57c286d0, type: 3}
@@ -2244,6 +2244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af0e3867bd54f0c99a3cde89be4a51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _persistent: 1
+  firstGoalType: 0
+  firstGoalValue: 0
+  secondGoalType: 0
+  secondGoalValue: 0
 --- !u!114 &1291719191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2279,11 +2284,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a2dd5abcffc34686bd77c86d0cf5d14, type: 2}
   currentLevelObject: {fileID: 0}
   currentLevel: 0
-  remainingMoves: 0
-  firstGoalType: 0
-  firstGoalValue: 0
-  secondGoalType: 0
-  secondGoalValue: 0
 --- !u!114 &1291719193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2297,6 +2297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 0
+  remainingMoves: 0
 --- !u!4 &1291719194
 Transform:
   m_ObjectHideFlags: 0

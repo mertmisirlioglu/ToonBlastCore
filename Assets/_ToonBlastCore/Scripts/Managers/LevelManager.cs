@@ -18,30 +18,14 @@ namespace _ToonBlastCore.Scripts.Managers
         public LevelScriptableObject[] levelList;
         public LevelScriptableObject currentLevelObject;
 
-
-
-
-
-
         public int currentLevel;
-        public int remainingMoves;
-
-        public TileTypes firstGoalType;
-        public int firstGoalValue;
-        public TileTypes secondGoalType;
-        public int secondGoalValue;
-
-        private Coroutine loseCoroutine;
-
-
 
         private void Start()
         {
             EventManager.StartListening("onGameStart", OnGameStart);
-            EventManager.StartListening("onMove", OnMove);
-            EventManager.StartListening("onWin", OnWin);
             EventManager.StartListening("loadNextLevel", LoadNextLevel);
             EventManager.StartListening("onGameRestart", RestartLevel);
+
             currentLevel = PlayerPrefs.GetInt("level");
         }
 
@@ -59,14 +43,7 @@ namespace _ToonBlastCore.Scripts.Managers
             }
 
             currentLevelObject = levelList[currentLevel];
-            remainingMoves = currentLevelObject.totalMove;
-            firstGoalType = currentLevelObject.firstGoalTile;
-            firstGoalValue = currentLevelObject.firstGoalValue;
-            secondGoalType = currentLevelObject.secondGoalTile;
-            secondGoalValue = currentLevelObject.secondGoalValue;
         }
-
-
 
         private void LoadNextLevel(Dictionary<string, object> message)
         {
@@ -80,39 +57,12 @@ namespace _ToonBlastCore.Scripts.Managers
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        // for last move wins
-        private void OnWin(Dictionary<string, object> message)
-        {
-            if (loseCoroutine != null)
-            {
-                StopCoroutine(loseCoroutine);
-            }
-        }
-
-
-
-
-
-
-
-        private void OnMove(Dictionary<string, object> message)
-        {
-            remainingMoves--;
-
-            if (remainingMoves <= 0)
-            {
-                loseCoroutine = StartCoroutine(Utils.DelayedAction(() => EventManager.TriggerEvent("onLose", null),5f));
-                return;
-            }
-
-            EventManager.TriggerEvent("UpdateUI", null);
-        }
-
-
 
         private void OnDisable()
         {
             EventManager.StopListening("onGameStart", OnGameStart);
+            EventManager.StopListening("loadNextLevel", LoadNextLevel);
+            EventManager.StopListening("onGameRestart", RestartLevel);
         }
 
     }

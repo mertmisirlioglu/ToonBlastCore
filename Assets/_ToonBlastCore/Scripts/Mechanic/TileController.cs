@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using _ToonBlastCore.Scripts.Managers;
 using Helpers;
@@ -61,8 +59,6 @@ namespace _ToonBlastCore.Scripts.Mechanic
             }
         }
 
-
-
         public void CheckHit(TileTypes tileType , int x, int y)
         {
             destroyList = new List<Tile>();
@@ -85,7 +81,6 @@ namespace _ToonBlastCore.Scripts.Mechanic
             }
 
             if(checkCoroutine != null) StopCoroutine(checkCoroutine);
-
 
             if (hitCount >= 5)
             {
@@ -137,8 +132,6 @@ namespace _ToonBlastCore.Scripts.Mechanic
             }
 
             return 0;
-
-
         }
 
     }

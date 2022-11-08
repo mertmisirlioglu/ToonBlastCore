@@ -91,9 +91,9 @@ namespace _ToonBlastCore.Scripts.Managers
 
         private void UpdateUI(Dictionary<string, object> message)
         {
-            FirstGoalValueText.SetText(LevelManager.Instance.firstGoalValue.ToString());
-            SecondGoalValueText.SetText(LevelManager.Instance.secondGoalValue.ToString());
-            moveText.SetText(LevelManager.Instance.remainingMoves.ToString());
+            FirstGoalValueText.SetText(ScoreManager.Instance.firstGoalValue.ToString());
+            SecondGoalValueText.SetText(ScoreManager.Instance.secondGoalValue.ToString());
+            moveText.SetText(GameManager.Instance.remainingMoves.ToString());
         }
 
         public void SetGoalsAndMoveCount()
