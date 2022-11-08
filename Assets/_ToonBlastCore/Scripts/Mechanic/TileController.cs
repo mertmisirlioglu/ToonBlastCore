@@ -32,7 +32,6 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 for (int j = 0; j < currentTiles[i].Length; j++)
                 {
                     var hitcount = CheckNeighbours(currentTiles[i][j].tileType, i, j);
-                    Debug.Log("check hit :" + hitcount);
                     if (hitcount > 1)
                     {
                         hasNeighbor = true;

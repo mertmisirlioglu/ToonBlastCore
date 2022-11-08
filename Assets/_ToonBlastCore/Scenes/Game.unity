@@ -2244,7 +2244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af0e3867bd54f0c99a3cde89be4a51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistent: 1
+  _persistent: 0
   firstGoalType: 0
   firstGoalValue: 0
   secondGoalType: 0
