@@ -100,11 +100,11 @@ namespace _ToonBlastCore.Scripts.Managers
         {
             var level = LevelManager.Instance.levelList[LevelManager.Instance.currentLevel];
 
-            FirstGoalImage.sprite = LevelManager.Instance.enumToTilesDictionary[level.firstGoalTile]
+            FirstGoalImage.sprite = GridManager.Instance.enumToTilesDictionary[level.firstGoalTile]
                 .GetComponent<SpriteRenderer>().sprite;
             FirstGoalValueText.SetText(level.firstGoalValue.ToString());
 
-            SecondGoalImage.sprite = LevelManager.Instance.enumToTilesDictionary[level.secondGoalTile]
+            SecondGoalImage.sprite = GridManager.Instance.enumToTilesDictionary[level.secondGoalTile]
                 .GetComponent<SpriteRenderer>().sprite;
             SecondGoalValueText.SetText(level.secondGoalValue.ToString());
 

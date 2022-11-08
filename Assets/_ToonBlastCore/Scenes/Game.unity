@@ -2201,6 +2201,7 @@ GameObject:
   - component: {fileID: 1291719194}
   - component: {fileID: 1291719193}
   - component: {fileID: 1291719192}
+  - component: {fileID: 1291719196}
   - component: {fileID: 1291719191}
   - component: {fileID: 1291719190}
   - component: {fileID: 1291719189}
@@ -2227,7 +2228,6 @@ MonoBehaviour:
   audioSource: {fileID: 639466736}
   audioSource2: {fileID: 0}
   hitAudio: {fileID: 8300000, guid: 403869a16c007469589776d6eb07cc61, type: 3}
-  collectAudio: {fileID: 8300000, guid: 9f8c0f5ad68d14ba8b6ae723130a3f69, type: 3}
   duckAudio: {fileID: 8300000, guid: fd63f47f06aad4b8db83a6a8525da660, type: 3}
   balloonAudio: {fileID: 8300000, guid: 9f52c8514c8344835a1af57a57c286d0, type: 3}
   winAudio: {fileID: 8300000, guid: eae1177648e5a402abd486828440bab1, type: 3}
@@ -2277,30 +2277,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 984f25f50f9184b96b78bbbe6d5b3486, type: 2}
   - {fileID: 11400000, guid: 54b985370e7d349d2bc43d05442c19c1, type: 2}
   - {fileID: 11400000, guid: 1a2dd5abcffc34686bd77c86d0cf5d14, type: 2}
-  baseTileList:
-  - {fileID: 6970263552198400704, guid: 1627802339e41424ab54a2b657cb92eb, type: 3}
-  - {fileID: -8173625776012276575, guid: 9bb02a4a89d604e8ea0bc62173e3f94d, type: 3}
-  - {fileID: -3464520304446439916, guid: c3908cbf2bfcd434a87eff086087a45b, type: 3}
-  - {fileID: 8206095735240875645, guid: f4f0df360149c451d8d6dfe8ee2bdfb3, type: 3}
-  - {fileID: 1622514278824349047, guid: 877911b35f56a4b1e8c0dc6fd4e33efc, type: 3}
-  - {fileID: -3786923790887254901, guid: d5f49648f523a4675960e97a0e0c5d0d, type: 3}
-  - {fileID: 5976955899329198611, guid: 05fda2cb537da49749cade1429474851, type: 3}
-  tileContainer: {fileID: 441272021}
-  gameContainer: {fileID: 1657546714}
-  bottomLeftTransform: {fileID: 1408571789}
-  bottomRightTransform: {fileID: 75177407}
-  topLeftTransform: {fileID: 498244557}
-  topRightTransform: {fileID: 597337467}
-  gameAreaBorderSprite: {fileID: 8136980951591974475}
-  positionIndicatorContainer: {fileID: 1283925236}
-  indicatorPrefab: {fileID: 6866766384166997703, guid: 228b9a69f74824e8990c5ec7c36eeb07, type: 3}
+  currentLevelObject: {fileID: 0}
   currentLevel: 0
   remainingMoves: 0
   firstGoalType: 0
   firstGoalValue: 0
   secondGoalType: 0
   secondGoalValue: 0
-  rocketGameObject: {fileID: 4466429707736655387, guid: 1edfe4818b2d0403f93c6be0592a38e0, type: 3}
 --- !u!114 &1291719193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2354,6 +2337,36 @@ MonoBehaviour:
   SecondGoalValueText: {fileID: 901830882}
   SecondGoalTick: {fileID: 848410087}
   moveText: {fileID: 1228761905}
+--- !u!114 &1291719196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291719188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4869b44e5a54dd48677e8e1bdec368c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
+  baseTileList:
+  - {fileID: 6970263552198400704, guid: 1627802339e41424ab54a2b657cb92eb, type: 3}
+  - {fileID: -8173625776012276575, guid: 9bb02a4a89d604e8ea0bc62173e3f94d, type: 3}
+  - {fileID: -3464520304446439916, guid: c3908cbf2bfcd434a87eff086087a45b, type: 3}
+  - {fileID: 8206095735240875645, guid: f4f0df360149c451d8d6dfe8ee2bdfb3, type: 3}
+  - {fileID: 1622514278824349047, guid: 877911b35f56a4b1e8c0dc6fd4e33efc, type: 3}
+  - {fileID: -3786923790887254901, guid: d5f49648f523a4675960e97a0e0c5d0d, type: 3}
+  - {fileID: 5976955899329198611, guid: 05fda2cb537da49749cade1429474851, type: 3}
+  tileContainer: {fileID: 441272021}
+  gameContainer: {fileID: 1657546714}
+  bottomLeftTransform: {fileID: 1408571789}
+  bottomRightTransform: {fileID: 75177407}
+  topLeftTransform: {fileID: 498244557}
+  gameAreaBorderSprite: {fileID: 8136980951591974475}
+  positionIndicatorContainer: {fileID: 1283925236}
+  indicatorPrefab: {fileID: 6866766384166997703, guid: 228b9a69f74824e8990c5ec7c36eeb07, type: 3}
+  rocketGameObject: {fileID: 4466429707736655387, guid: 1edfe4818b2d0403f93c6be0592a38e0, type: 3}
 --- !u!1 &1318975293
 GameObject:
   m_ObjectHideFlags: 0

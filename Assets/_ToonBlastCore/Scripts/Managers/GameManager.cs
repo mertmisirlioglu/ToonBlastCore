@@ -13,11 +13,5 @@ namespace _ToonBlastCore.Scripts.Managers
     public class GameManager : Singleton<GameManager>
     {
         public static GameState gameState;
-        private void Start()
-        {
-
-        }
-
-
     }
 }
