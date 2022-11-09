@@ -19,12 +19,16 @@ namespace _ToonBlastCore.Scripts.Mechanic
 
         private void OnTileClicked(Dictionary<string, object> message)
         {
+            if (GameManager.Instance.remainingMoves <= 0)
+            {
+                return;
+            }
+
             CheckHit((TileTypes)message["tileType"],(int) message["x"], (int) message["y"]);
         }
 
         public void CheckAreThereAnyMove()
         {
-            Debug.Log("checkledim");
             if (FindObjectsOfType<Rocket>().Length > 0) return;
             bool hasNeighbor = false;
             for (int i = 0; i < currentTiles.Length; i++)
@@ -71,11 +75,13 @@ namespace _ToonBlastCore.Scripts.Mechanic
                 {
                     tile.checkedToDestroy = false;
                 }
+                EventManager.TriggerEvent("onWrongMove",null);
                 return;
             }
 
             if(hitCount < 1)
             {
+                EventManager.TriggerEvent("onWrongMove",null);
                 return;
             }
 

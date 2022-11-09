@@ -2228,6 +2228,7 @@ MonoBehaviour:
   audioSource: {fileID: 639466736}
   audioSource2: {fileID: 1166583579}
   hitAudio: {fileID: 8300000, guid: 403869a16c007469589776d6eb07cc61, type: 3}
+  wrongAudio: {fileID: 8300000, guid: 5ea2495f3f3844160ac84e294b8c1464, type: 3}
   duckAudio: {fileID: 8300000, guid: fd63f47f06aad4b8db83a6a8525da660, type: 3}
   balloonAudio: {fileID: 8300000, guid: 9f52c8514c8344835a1af57a57c286d0, type: 3}
   winAudio: {fileID: 8300000, guid: eae1177648e5a402abd486828440bab1, type: 3}

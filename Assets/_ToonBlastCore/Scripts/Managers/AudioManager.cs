@@ -9,6 +9,7 @@ namespace _ToonBlastCore.Scripts.Managers{
         public AudioSource audioSource;
         public AudioSource audioSource2;
         public AudioClip hitAudio;
+        public AudioClip wrongAudio;
         public AudioClip duckAudio;
         public AudioClip balloonAudio;
         public AudioClip winAudio;
@@ -21,6 +22,7 @@ namespace _ToonBlastCore.Scripts.Managers{
             EventManager.StartListening("onWin", OnWin);
             EventManager.StartListening("onLose", OnLose);
             EventManager.StartListening("onHit", OnHit);
+            EventManager.StartListening("onWrongMove", OnWrongMove);
             EventManager.StartListening("playDuckAudio", PlayDuckAudio);
             EventManager.StartListening("playBalloonAudio", PlayBalloonAudio);
         }
@@ -43,6 +45,11 @@ namespace _ToonBlastCore.Scripts.Managers{
         private void OnHit(Dictionary<string, object> message)
         {
             PlayOneShot(hitAudio);
+        }
+
+        private void OnWrongMove(Dictionary<string, object> message)
+        {
+            PlayOneShot(wrongAudio);
         }
 
         private void PlayDuckAudio(Dictionary<string, object> message)
@@ -68,6 +75,7 @@ namespace _ToonBlastCore.Scripts.Managers{
             EventManager.StopListening("onWin", OnWin);
             EventManager.StopListening("onLose", OnLose);
             EventManager.StopListening("onHit", OnHit);
+            EventManager.StopListening("onWrongMove", OnWrongMove);
             EventManager.StopListening("playDuckAudio", PlayDuckAudio);
             EventManager.StopListening("playBalloonAudio", PlayBalloonAudio);
         }

@@ -103,10 +103,11 @@ namespace _ToonBlastCore.Scripts.Managers
         private IEnumerator InstantiateTileOnSky(float x)
         {
             GameManager.gameState = GameState.Stop;
-            var pos = new Vector3(x, 5, 0);
+            var pos = new Vector3(x, 4, 0);
             TileTypes tileType = Utils.RandomEnumValue<TileTypes>();
             yield return new WaitForSeconds(Random.Range(0, 0.17f));
             Instantiate(enumToTilesDictionary[tileType].gameObject, pos, quaternion.identity,tileContainer).GetComponent<Tile>();
+            yield return new WaitForSeconds(1f);
             GameManager.gameState = GameState.Playing;
         }
 
